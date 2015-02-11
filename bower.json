@@ -1,0 +1,29 @@
+{
+  "name": "ChatRoom",
+  "version": "0.0.1",
+  "homepage": "https://github.com/MasterWebs/ChatRoom",
+  "authors": [
+    "Snaebjorn <snaebjorn13@ru.is>",
+    "Omar <omar13@ru.is>"
+  ],
+  "description": "Chat client",
+  "main": "js/app.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "angularJS",
+    "chat",
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
