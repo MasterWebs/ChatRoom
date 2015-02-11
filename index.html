@@ -1,20 +1,37 @@
 <!DOCTYPE>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Chat Client</title>
 
-    <!-- Bootstrap -->
-    <link href="bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 
-  </head>
-  <body ng-app="ChatClient">
-    <h1>Hello, world!</h1>
+    <body ng-app="ChatClient">
+        <div class="container">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/js/bootstrap.min.js"></script>
-  </body>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputUsername" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                    </div>
+                </div>
+                  
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Sign in</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    </body>
 </html>
