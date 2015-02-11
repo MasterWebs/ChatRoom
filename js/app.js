@@ -3,10 +3,13 @@ var ChatRoom = angular.module('ChatRoom', ['ngRoute']);
 ChatRoom.config(
 	function ($routeProvider) {
 		$routeProvider
-		.when('ChatRoom/index.html', {
-			templateUrl: 'views/login.html', 
-			controller: 'LoginController' 
-		});
+			.when('/login', {
+				templateUrl: 'views/login.html', 
+				controller: 'LoginController' 
+			})
+			.otherwise({
+				redirectTo: '/login'
+			});
 	}
 );
 
