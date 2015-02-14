@@ -23,13 +23,11 @@ ChatRoom.controller('LoginController', function($scope, $location, $rootScope, $
 	$scope.nickname = '';
 
 	$scope.login = function() {
-		console.log("login");
 		if ($scope.nickname = '') {
 			console.log("error, empty nick");
 			$scope.errorMessage = 'Please choose a nickname before continuing!';
 		} else {
-			socket.emit('addUser', $scope.nickname, function (available) {
-				console.log("socker");
+			socket.emit('adduser', $scope.nickname, function (available) {
 				if (available) {
 					$location.path('/rooms/' + $scope.nickname);
 				} else {
@@ -51,9 +49,41 @@ ChatRoom.controller('RoomController', function($scope, $location, $rootScope, $r
 	$scope.currentUsers = [];
 	$scope.errorMessage = '';
 
-	socket.on('updateUsers', function(roomName, users, ops) {
-		if(!success) {
-			$scope.errorMessage = "ERROR";
-		}
+	socket.on('updateusers', function(roomName, users, ops) {
+		$scope.currentUser = users;
 	});	
+
+	socket.emit('joinroom', $scope.currentRoom, function(success, reason) {
+		if(!success) {
+			$scope.errorMessage = reason;
+		}
+			
+	});
+});
+
+// Factory to wrap around the socket functions
+// Borrowed from Brian Ford
+// http://briantford.com/blog/angular-socket-io.html
+ChatRoom.factory('socket', function ($rootScope) {
+    var socket = io.connect('http://localhost:8080');
+    return {
+        on: function (eventName, callback) {
+            socket.on(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(socket, args);
+                });
+            });
+        },
+        emit: function (eventName, data, callback) {
+            socket.emit(eventName, data, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    if (callback) {
+                        callback.apply(socket, args);
+                    }
+                });
+            });
+        }
+    };
 });
