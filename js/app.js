@@ -48,6 +48,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
 		// list available rooms
+		console.log(rooms);
 		$scope.rooms = rooms;
 	});
 });
