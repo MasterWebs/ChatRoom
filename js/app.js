@@ -43,12 +43,11 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 
 ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
-	$scope.rooms = []
+	$scope.rooms = [];
 	$scope.roomList = [];
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = '';
 	$scope.successMessage = '';
-	$scope.roomName;
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
 		
@@ -66,10 +65,11 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		var roomExist = false;
 		console.log($scope.roomList);
 
-		for(var room in $scope.roomList) {
-			//TODO: check if room name exists
-			var obj = room;	
-			console.log("room " + obj);
+		for(var i = 0; i < $scope.roomList.length; i++) {
+			// check if room name exists
+			if(newRoom.room === $scope.roomList[i]) {
+				roomExist = true;
+			}
 		}
 		
 
@@ -86,7 +86,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			$scope.errorMessage = "Room name already exists";
 		}
 		
-	}
+	};
 });
 
 ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
