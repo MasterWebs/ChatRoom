@@ -5,9 +5,9 @@ ChatRoom.config(
 		$routeProvider
 			.when('/login', {
 				templateUrl: 'views/login.html', 
-				controller: 'LoginController' 
+				controller: 'LoginController'
 			})
-			.when('/rooms', {
+			.when('/rooms:user/', {
 				templateUrl: 'views/rooms.html',
 				controller: 'RoomsController'
 			})
@@ -59,31 +59,4 @@ ChatRoom.controller('RoomController', function($scope, $location, $rootScope, $r
 		}
 			
 	});
-});
-
-// Factory to wrap around the socket functions
-// Borrowed from Brian Ford
-// http://briantford.com/blog/angular-socket-io.html
-ChatRoom.factory('socket', function ($rootScope) {
-    var socket = io.connect('http://localhost:8080');
-    return {
-        on: function (eventName, callback) {
-            socket.on(eventName, function () {
-                var args = arguments;
-                $rootScope.$apply(function () {
-                    callback.apply(socket, args);
-                });
-            });
-        },
-        emit: function (eventName, data, callback) {
-            socket.emit(eventName, data, function () {
-                var args = arguments;
-                $rootScope.$apply(function () {
-                    if (callback) {
-                        callback.apply(socket, args);
-                    }
-                });
-            });
-        }
-    };
 });

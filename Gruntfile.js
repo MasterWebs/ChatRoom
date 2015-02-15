@@ -4,7 +4,7 @@ module.exports = function ( grunt ) {
 		jshint: {
 			/* Ignore chatserver file, run jshint
 			on all other files */
-			src: [ 'js/*.js', '!js/chatserver.js' ],
+			src: [ 'js/*.js' ],
 			gruntfile: ['Gruntfile.js'],
 			options: {
 				curly: 	true,
@@ -17,12 +17,14 @@ module.exports = function ( grunt ) {
 				node: 	true,
 				undef:  true,
 				globals: {
-					_: 		 false,
-					jQuery:  false,
-					angular: false,
-					moment:  false,
-					console: false,
-					$: 		 false 
+					_: 		 	false,
+					jQuery:  	false,
+					angular: 	false,
+					moment:  	false,
+					console: 	false,
+					$: 		 	false,
+					ChatRoom: 	true,
+					io: 		false 
 				} 
 			}
 		}
