@@ -42,12 +42,14 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 });
 
 ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
-	// TODO: Query chat server for active rooms
+	// Query chat server for active rooms
 	$scope.rooms = [];
-	socket.emit('rooms', function(roomlist) {
-		$scope.rooms = roomlist;
-	});
 	$scope.currentUser = $routeParams.user;
+	socket.emit('rooms');
+	socket.on('roomlist', function (rooms) {
+		// list available rooms
+		$scope.rooms = rooms;
+	});
 });
 
 ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
