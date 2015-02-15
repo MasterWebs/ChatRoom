@@ -5,10 +5,8 @@
 	<div class="alert alert-success" ng-cloak ng-show="successMessage != ''"> {{successMessage}} </div>
 
     <ul ng-repeat="room in roomList">
-        <li><a ng-click="enterRoom(room)">{{room}}</a></li>
+        <li><a href="#/rooms/{{currentUser}}/{{room}}">{{room}}</a></li>
     </ul>
-    
-
     
     <div class="form-group">
 		<label for="roomName" class="control-label">Create new Room</label>

@@ -57,10 +57,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		}
 	});
 
-	$scope.enterRoom = function(room) {
-		$location.path("/rooms/" + $scope.currentUser + "/" + room);
-	};
-
 	$scope.createRoom = function() {
 		var newRoom = {
 			room: $scope.roomName
