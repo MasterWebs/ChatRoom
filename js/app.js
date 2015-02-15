@@ -1,6 +1,6 @@
 var ChatRoom = angular.module('ChatRoom', ['ngRoute']);
 
-ChatRoom.config(
+ChatRoom.config(['$routeProvider',
 	function ($routeProvider) {
 		$routeProvider
 			.when('/login', {
@@ -11,7 +11,7 @@ ChatRoom.config(
 				templateUrl: 'views/rooms.html',
 				controller: 'RoomsController'
 			})
-			.when('rooms/:user/:room', {
+			.when('/rooms/:user/:room', {
 				templateUrl: 'views/room.html',
 				controller: 'RoomController'
 			})
@@ -19,7 +19,7 @@ ChatRoom.config(
 				redirectTo: '/login'
 			});
 	}
-);
+]);
 
 ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, $routeParams, socket) {
 
@@ -51,7 +51,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.roomName = '';
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
-		
 		// list available rooms
 		for(var room in rooms) {
 			$scope.roomList.push(room);
@@ -59,7 +58,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	});
 
 	$scope.enterRoom = function(room) {
-		console.log("/rooms/" + $scope.currentUser + "/" + room);
 		$location.path("/rooms/" + $scope.currentUser + "/" + room);
 	};
 
@@ -104,7 +102,4 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	socket.on('updateusers', function(roomName, users, ops) {
 		$scope.currentUser = users;
 	});	
-
-
-
 });
