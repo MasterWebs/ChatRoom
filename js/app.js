@@ -7,11 +7,11 @@ ChatRoom.config(
 				templateUrl: 'views/login.html', 
 				controller: 'LoginController'
 			})
-			.when('/rooms/:user/', {
+			.when('/rooms/:user', {
 				templateUrl: 'views/rooms.html',
 				controller: 'RoomsController'
 			})
-			.when('rooms/:user/:room/', {
+			.when('rooms/:user/:room', {
 				templateUrl: 'views/room.html',
 				controller: 'RoomController'
 			})
@@ -48,6 +48,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.currentUser = $routeParams.user;
 	$scope.errorMessage = '';
 	$scope.successMessage = '';
+	$scope.roomName = '';
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
 		
@@ -56,6 +57,11 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			$scope.roomList.push(room);
 		}
 	});
+
+	$scope.enterRoom = function(room) {
+		console.log("/rooms/" + $scope.currentUser + "/" + room);
+		$location.path("/rooms/" + $scope.currentUser + "/" + room);
+	};
 
 	$scope.createRoom = function() {
 		var newRoom = {
@@ -75,9 +81,9 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 
 		if(!roomExist) {
 			socket.emit('joinroom', newRoom, function(success, reason) {
-				console.log("emit");
 				if(success) {
-					$scope.successMessage = "Room " + $scope.roomName + " has been created";
+					$scope.successMessage = "Room " + newRoom.room + " has been created";
+					$scope.roomList.push(newRoom.room);
 				} else {
 					$scope.errorMessage = reason;
 				}
