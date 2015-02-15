@@ -48,7 +48,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
 		// list available rooms
-
 		for(var room in rooms) {
 			$scope.roomlist.push(room);
 		}
