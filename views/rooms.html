@@ -1,6 +1,8 @@
 <h3>Hi {{currentUser}} - Active chat rooms</h3>
 <div class="well">
     <ul ng-repeat="room in rooms">
-        <li><a href="#/room/{{currentUser}}/{{room}}">{{room.currentRoom}}</a></li>
+        <li><a href="#/room/{{currentUser}}/{{room}}">{{room.topic}}</a></li>
     </ul>
+    <button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
+    <button type="button" class="btn btn-primary" ng-click="login()">Enter chat</button>
 </div>

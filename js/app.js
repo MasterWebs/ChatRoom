@@ -43,14 +43,33 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 
 ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
-	$scope.rooms = [];
+	$scope.rooms = []
 	$scope.currentUser = $routeParams.user;
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
 		// list available rooms
 		console.log(rooms);
 		$scope.rooms = rooms;
+		console.log($scope.rooms);
 	});
+
+	$scope.createRoom = function() {
+		console.log("createRoom");
+		$scope.obj = {
+			room: undefined,
+			pass: undefined
+		};
+
+		console.log($scope.obj);
+
+		socket.emit('joinroom', $scope.obj, function(success, reason) {
+			console.log("emit");
+			if(!success) {
+				$scope.errorMessage = reason;
+			}
+		});
+		console.log("done");
+	}
 });
 
 ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
@@ -63,10 +82,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 		$scope.currentUser = users;
 	});	
 
-	socket.emit('joinroom', $scope.currentRoom, function(success, reason) {
-		if(!success) {
-			$scope.errorMessage = reason;
-		}
-			
-	});
+
+
 });
