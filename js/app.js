@@ -43,15 +43,50 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 
 ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
-	$scope.roomlist = [];
+	$scope.rooms = []
+	$scope.roomList = [];
 	$scope.currentUser = $routeParams.user;
+	$scope.errorMessage = '';
+	$scope.successMessage = '';
+	$scope.roomName;
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
+		
 		// list available rooms
 		for(var room in rooms) {
-			$scope.roomlist.push(room);
+			$scope.roomList.push(room);
 		}
 	});
+
+	$scope.createRoom = function() {
+		var newRoom = {
+			room: $scope.roomName
+		};
+
+		var roomExist = false;
+		console.log($scope.roomList);
+
+		for(var room in $scope.roomList) {
+			//TODO: check if room name exists
+			var obj = room;	
+			console.log("room " + obj);
+		}
+		
+
+		if(!roomExist) {
+			socket.emit('joinroom', newRoom, function(success, reason) {
+				console.log("emit");
+				if(success) {
+					$scope.successMessage = "Room " + $scope.roomName + " has been created";
+				} else {
+					$scope.errorMessage = reason;
+				}
+			});
+		} else {
+			$scope.errorMessage = "Room name already exists";
+		}
+		
+	}
 });
 
 ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
@@ -64,10 +99,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 		$scope.currentUser = users;
 	});	
 
-	socket.emit('joinroom', $scope.currentRoom, function(success, reason) {
-		if(!success) {
-			$scope.errorMessage = reason;
-		}
-			
-	});
+
+
 });

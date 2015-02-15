@@ -1,6 +1,18 @@
 <h3>Hi {{currentUser}} - Active chat rooms</h3>
 <div class="well">
-    <ul ng-repeat="room in roomlist">
-        <li><a href="#/rooms/{{currentUser}}/{{room}}/">{{room}}</a></li>
+	<!-- Messages -->
+	<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
+	<div class="alert alert-success" ng-cloak ng-show="successMessage != ''"> {{successMessage}} </div>
+
+    <ul ng-repeat="room in roomList">
+        <li><a href="#/room/{{currentUser}}/{{room}}">{{room}}</a></li>
     </ul>
+    
+
+    
+    <div class="form-group">
+		<label for="roomName" class="control-label">Create new Room</label>
+		<input type="text" class="form-control" id="roomName" name="roomName" ng-model="roomName" />
+	</div>
+	<button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
 </div>
