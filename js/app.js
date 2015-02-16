@@ -123,6 +123,9 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			};
 			// send message to server
 			socket.emit('sendmsg', message);
+			console.log("clear message");
+			$("#msg").val('');
+			$scope.nextMessage = '';
 		}
 	};
 
@@ -158,3 +161,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 		}
 	});
 });
+
+
+

@@ -5,12 +5,20 @@
 <h3>Hi {{currentUser}} - Room {{currentRoom}}</h3>
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
-	<ul id="messages">
-		<li ng-repeat="msg in messageHistory">{{msg.nick}}: {{msg.message}}</li>
-	</ul>
+	<div id="chatWindow">
+		<ul id="messages">
+			<li ng-repeat="msg in messageHistory">
+				<span id="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+			</li>
+		</ul>
+	</div>
 
-	<input id="msg" ng-model="nextMessage" name="msg" autocomplete="off" /><button ng-click="sendMsg()">Send</button>
-	
+	<!--<input id="msg" ng-model="nextMessage" name="msg" autocomplete="off" />-->
+	<!--<textarea cols="50" rows="50" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>-->
+	<div id="msgForm">
+		<textarea class="form-control" rows="3" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>
+		<button class="btn btn-primary" ng-click="sendMsg()">Send</button>
+	</div>
 </div>
 <div class="col-md-3">
 	<h4>Ops in this room</h4>
@@ -25,6 +33,6 @@
 			<li ng-repeat="user in users">{{user}}</li>
 		</ul>
 	</div>
+	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
 </div>
 
-<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
