@@ -8,9 +8,9 @@
 	<ul id="messages">
 		<li ng-repeat="msg in messageHistory">{{msg.nick}}: {{msg.message}}</li>
 	</ul>
-	<form action="">
-		<input id="m" autocomplete="off" /><button>Send</button>
-	</form>
+
+	<input id="msg" ng-model="nextMessage" name="msg" autocomplete="off" /><button ng-click="sendMsg()">Send</button>
+	
 </div>
 <div class="col-md-3">
 	<h4>Ops in this room</h4>

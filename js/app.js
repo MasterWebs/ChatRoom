@@ -94,6 +94,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.users = [];
 	$scope.ops = [];
 	$scope.messageHistory = [];
+	$scope.nextMessage = '';
 	$scope.errorMessage = '';
 
 	var obj = {
@@ -111,6 +112,18 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 		$location.path('/rooms/' + $scope.currentUser);
 		// let server know that user has left the room
 		socket.emit('partroom', $scope.currentRoom);
+	};
+
+	$scope.sendMsg = function () {
+		if($scope.nextMessage !== '') {
+			// only handle non-empty messages
+			var message = {
+				roomName: $scope.currentRoom,
+				msg: $scope.nextMessage
+			};
+			// send message to server
+			socket.emit('sendmsg', message);
+		}
 	};
 
 	/* The server responds by emitting the following events: "updateusers" (to all participants in the room),
