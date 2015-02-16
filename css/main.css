@@ -1,0 +1,24 @@
+#chatWindow {
+	height: 300px;
+
+	border: 1px solid;
+	padding-bottom: 5px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	word-wrap: break-word; 
+}
+
+#messages {
+	list-style-type: none; 
+	padding-left: 4px;
+}
+
+#msgNick {
+	color: #337ab7;
+}
+
+#msgForm {
+	margin-right: 200px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
