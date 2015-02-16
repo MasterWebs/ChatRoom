@@ -136,24 +136,30 @@ Parameters:an object containing the following properties: { user : "The username
 a callback function, accepting a single boolean parameter, stating if the user could be kicked or 7not.
 The server will emit the following events if the user was successfully kicked: "kicked" to the user being kicked,
 and "updateusers" to the rest of the users in the room.*/
-	$scope.kickUser = function () {
-		if($scope.userToKick !=='') {
-			//only handle non-empty kicks
-			console.log("inside kick");
-			var kick = {
-				user: $scope.userToKick,
-				room: $scope.currentRoom
+	$scope.kickUser = function (user) {
+		//only handle non-empty kicks
+		console.log("inside kick");
+		var kick = {
+			user: user,
+			room: $scope.currentRoom
+		};
+
+		socket.emit('kick', kick, function(kicked) {
+			if(kicked) {
+				console.log("kicked");
+			} else {
+				console.log("not Kicked");
 			}
-
-			socket.emit('kick', kick, function(kicked) {
-				if(kicked)
-					console.log("kicked");
-				else
-					console.log("not Kicked");
-			});
-
-		}
+		});
 	};
+
+	socket.on('kicked', function (room, userKicked, user) {
+		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
+			// the user in this room has been kicked
+			// redirect him to the room list
+			$location.path('/rooms/' + $scope.currentUser);
+		}
+	});
 	/* The server responds by emitting the following events: "updateusers" (to all participants in the room),
 	"updatetopic" (to the newly joined user, not required to handle this), "servermessage" with the first parameter
 	set to "join" ( to all participants in the room, informing about the newly added user). If a new room is being
@@ -167,13 +173,23 @@ and "updateusers" to the rest of the users in the room.*/
 			$scope.users = [];
 			$scope.ops = [];
 			// populate users and ops lists with updated information
-			for (var user in users) {
-				console.log('adding user: ' + user);
-				$scope.users.push(user);
-			}
 			for (var op in ops) {
 				console.log('adding op: ' + op);
 				$scope.ops.push(op);
+			}
+			for (var user in users) {
+				// we do not want ops to be listed as users
+				var isOp = false;
+
+				for (var j = 0; j < $scope.ops.length; j++) {
+					if (user === $scope.ops[j]) {
+						isOp = true;
+					}
+				}
+
+				if (!isOp) {
+					$scope.users.push(user);
+				}
 			}
 
 			for(var i = 0; i < $scope.ops.length; i++) {
