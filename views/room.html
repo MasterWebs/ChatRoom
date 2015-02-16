@@ -30,9 +30,21 @@
 	<h4>Users in this room</h4>
 	<div class="well">	
 		<ul>
-			<li ng-repeat="user in users">{{user}}</li>
+			<li ng-repeat="user in users">
+				{{user}} 
+				<span ng-cloak ng-show="isOp == true">
+					<button class="asText">Kick</button>
+					<button class="asText">Ban</button>
+				</span>
+			</li>
 		</ul>
 	</div>
 	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
+	
+	<div ng-cloak ng-show="isOp == true">
+		<input type="text" class="form-control" ng-model="userToKick" >
+		<button class="btn btn-alert" ng-click="kickUser()">Kick</button>
+	</div>
+	
 </div>
 

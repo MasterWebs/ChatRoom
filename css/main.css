@@ -22,3 +22,11 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.asText {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    color: #d9534f;
+}

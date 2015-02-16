@@ -96,6 +96,8 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.messageHistory = [];
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
+	$scope.isOp = false;
+	$scope.userToKick = ''; //gets the input to kick user
 
 	var obj = {
 		room: $scope.currentRoom
@@ -129,6 +131,29 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 		}
 	};
 
+/* When a room creator wants to kick a user from the room.
+Parameters:an object containing the following properties: { user : "The username of the user being kicked", room: "The ID of the room"
+a callback function, accepting a single boolean parameter, stating if the user could be kicked or 7not.
+The server will emit the following events if the user was successfully kicked: "kicked" to the user being kicked,
+and "updateusers" to the rest of the users in the room.*/
+	$scope.kickUser = function () {
+		if($scope.userToKick !=='') {
+			//only handle non-empty kicks
+			console.log("inside kick");
+			var kick = {
+				user: $scope.userToKick,
+				room: $scope.currentRoom
+			}
+
+			socket.emit('kick', kick, function(kicked) {
+				if(kicked)
+					console.log("kicked");
+				else
+					console.log("not Kicked");
+			});
+
+		}
+	};
 	/* The server responds by emitting the following events: "updateusers" (to all participants in the room),
 	"updatetopic" (to the newly joined user, not required to handle this), "servermessage" with the first parameter
 	set to "join" ( to all participants in the room, informing about the newly added user). If a new room is being
@@ -149,6 +174,14 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			for (var op in ops) {
 				console.log('adding op: ' + op);
 				$scope.ops.push(op);
+			}
+
+			for(var i = 0; i < $scope.ops.length; i++) {
+				console.log("inside for");
+				if($scope.currentUser == $scope.ops[i]) {
+					$scope.isOp = true;
+					console.log("found op");
+				}
 			}
 		}
 	});
