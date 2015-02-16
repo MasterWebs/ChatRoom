@@ -63,7 +63,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		};
 
 		var roomExist = false;
-		console.log($scope.roomList);
 
 		for(var i = 0; i < $scope.roomList.length; i++) {
 			// check if room name exists
@@ -74,7 +73,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		
 
 		if(!roomExist) {
-			socket.emit('joinroom', newRoom, function(success, reason) {
+			socket.emit('joinroom', newRoom, function (success, reason) {
 				if(success) {
 					$scope.successMessage = "Room " + newRoom.room + " has been created";
 					$scope.roomList.push(newRoom.room);
@@ -92,10 +91,57 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentRoom = $routeParams.room;
 	$scope.currentUser = $routeParams.user;
-	$scope.currentUsers = [];
+	$scope.users = [];
+	$scope.ops = [];
+	$scope.messageHistory = [];
 	$scope.errorMessage = '';
 
-	socket.on('updateusers', function(roomName, users, ops) {
-		$scope.currentUser = users;
-	});	
+	var obj = {
+		room: $scope.currentRoom
+	};
+
+	socket.emit('joinroom', obj, function (success, reason) {
+		if (!success) {
+			$scope.errorMessage = reason;
+		}
+	});
+
+	$scope.partRoom = function () {
+		// redirect user to room list
+		$location.path('/rooms/' + $scope.currentUser);
+		// let server know that user has left the room
+		socket.emit('partroom', $scope.currentRoom);
+	};
+
+	/* The server responds by emitting the following events: "updateusers" (to all participants in the room),
+	"updatetopic" (to the newly joined user, not required to handle this), "servermessage" with the first parameter
+	set to "join" ( to all participants in the room, informing about the newly added user). If a new room is being
+	created, the message "updatechat" is also emitted. */
+
+	socket.on('updateusers', function (roomName, users, ops) {
+		// we only want to update the users for this particular room
+		if (roomName === $scope.currentRoom) {
+			// empty list of users and ops
+			console.log('update the users!');
+			$scope.users = [];
+			$scope.ops = [];
+			// populate users and ops lists with updated information
+			for (var user in users) {
+				console.log('adding user: ' + user);
+				$scope.users.push(user);
+			}
+			for (var op in ops) {
+				console.log('adding op: ' + op);
+				$scope.ops.push(op);
+			}
+		}
+	});
+
+	socket.on('updatechat', function (roomName, msgHistory) {
+		// we only want to update the messages for this particular room
+		if (roomName === $scope.currentRoom) {
+			// empty list of messages
+			$scope.messageHistory = msgHistory;
+		}
+	});
 });

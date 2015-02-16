@@ -2,8 +2,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	var taskConfig = {
 		jshint: {
-			/* Ignore chatserver file, run jshint
-			on all other files */
+			// run jshint on all files in js folder
 			src: [ 'js/*.js' ],
 			gruntfile: ['Gruntfile.js'],
 			options: {
