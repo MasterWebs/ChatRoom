@@ -7,6 +7,7 @@
 	<!-- Temporary message list, we must make this much cooler brah -->
 	<div id="tabs">
 		<button class="btn btn-primary active">{{currentRoom}}</button>
+		<button class="btn btn-primary">{{currentUser}}</button>
 	</div>
 	<div id="chatWindow">
 		<ul id="messages">
@@ -34,7 +35,7 @@
 	<div class="well">	
 		<ul>
 			<li ng-repeat="user in users">
-				{{user}} 
+				<span ng-click="privateMsg(user)">{{user}}</span> 
 				<span ng-cloak ng-show="isOp == true">
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
