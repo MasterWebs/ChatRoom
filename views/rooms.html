@@ -1,9 +1,8 @@
 <h3>Hi {{currentUser}} - Active chat rooms</h3>
-<div class="well">
-	<!-- Messages -->
-	<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
-	<div class="alert alert-success" ng-cloak ng-show="successMessage != ''"> {{successMessage}} </div>
+<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
+<div class="alert alert-success" ng-cloak ng-show="successMessage != ''"> {{successMessage}} </div>
 
+<div class="well">
     <ul ng-repeat="room in roomList">
         <li><a href="#/rooms/{{currentUser}}/{{room}}">{{room}}</a></li>
     </ul>

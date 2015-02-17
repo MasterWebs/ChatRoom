@@ -73,14 +73,18 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		
 
 		if(!roomExist) {
-			socket.emit('joinroom', newRoom, function (success, reason) {
-				if(success) {
-					$scope.successMessage = "Room " + newRoom.room + " has been created";
-					$scope.roomList.push(newRoom.room);
-				} else {
-					$scope.errorMessage = reason;
-				}
-			});
+			if($scope.roomName !== '') {
+				socket.emit('joinroom', newRoom, function (success, reason) {
+					if(success) {
+						$scope.successMessage = "Room " + newRoom.room + " has been created";
+						$scope.roomList.push(newRoom.room);
+					} else {
+						$scope.errorMessage = reason;
+					}
+				});
+			} else {
+				$scope.errorMessage = "Room name cannot be empty";
+			}
 		} else {
 			$scope.errorMessage = "Room name already exists";
 		}
@@ -143,9 +147,9 @@ and "updateusers" to the rest of the users in the room.*/
 		};
 
 		socket.emit('kick', kick, function(kicked) {
-			if(!kicked) 
+			if(!kicked) {
 				$scope.errorMessage = "Could not kick user";
-			
+			}
 		});
 	};
 
@@ -156,8 +160,9 @@ and "updateusers" to the rest of the users in the room.*/
 		};
 
 		socket.emit('ban', ban, function(banned) {
-			if(banned)
-				console.log("banned");
+			if(!banned) {
+				$scope.errorMessage = "Coult not ban " + user;
+			}
 		});
 	};
 
@@ -167,7 +172,7 @@ and "updateusers" to the rest of the users in the room.*/
 			//the user in this room has been banned
 			//redirect to lobby
 			$location.path('/rooms/' + $scope.currentUser);
-		}
+		} 
 	});
 
 	socket.on('kicked', function (room, userKicked, user) {
@@ -177,6 +182,7 @@ and "updateusers" to the rest of the users in the room.*/
 			$location.path('/rooms/' + $scope.currentUser);
 		}
 	});
+
 	/* The server responds by emitting the following events: "updateusers" (to all participants in the room),
 	"updatetopic" (to the newly joined user, not required to handle this), "servermessage" with the first parameter
 	set to "join" ( to all participants in the room, informing about the newly added user). If a new room is being
