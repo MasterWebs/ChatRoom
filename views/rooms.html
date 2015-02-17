@@ -4,7 +4,7 @@
 
 <div class="well">
     <ul ng-repeat="room in roomList">
-        <li><a href="#/rooms/{{currentUser}}/{{room}}">{{room}}</a></li>
+        <li><a ng-click="enterRoom(room)">{{room}}</a></li>
     </ul>
     
     <div class="form-group">
