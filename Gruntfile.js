@@ -8,9 +8,7 @@ module.exports = function ( grunt ) {
 				separator: '\n\n'
 			},
 			dist: {
-				src: ['js/ChatRoom.js', 'js/LoginController.js',
-					  'js/RoomsController.js', 'js/RoomController.js',
-					  'js/socket-factory.js'],
+				src: ['src/*.js'],
 				dest: 'dist/app.js'
 			}
 		},
@@ -23,7 +21,7 @@ module.exports = function ( grunt ) {
 		},
 		jshint: {
 			// run jshint on all files in js folder
-			src: [ 'js/*.js' ],
+			src: [ 'src/*.js' ],
 			gruntfile: ['Gruntfile.js'],
 			options: {
 				curly: 	true,
