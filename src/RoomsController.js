@@ -8,6 +8,8 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.roomName = '';
 	socket.emit('rooms');
 	socket.on('roomlist', function (rooms) {
+		// clear room list
+		$scope.roomList = [];
 		// list available rooms
 		for(var room in rooms) {
 			$scope.roomList.push(room);
@@ -48,9 +50,9 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			if($scope.roomName !== '') {
 				socket.emit('joinroom', newRoom, function (success, reason) {
 					if(success) {
-						$scope.successMessage = "Room " + newRoom.room + " has been created";
-						$scope.roomList.push(newRoom.room);
-						
+						/* $scope.successMessage = "Room " + newRoom.room + " has been created";
+						$scope.roomList.push(newRoom.room); */
+						$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
 					} else {
 						$scope.errorMessage = reason;
 					}
