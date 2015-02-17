@@ -5,6 +5,9 @@
 <h3>Hi {{currentUser}} - Room {{currentRoom}}</h3>
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
+	<div id="tabs">
+		<button class="btn btn-primary active">{{currentRoom}}</button>
+	</div>
 	<div id="chatWindow">
 		<ul id="messages">
 			<li ng-repeat="msg in messageHistory">
@@ -13,8 +16,8 @@
 		</ul>
 	</div>
 
-	<!--<input id="msg" ng-model="nextMessage" name="msg" autocomplete="off" />-->
-	<!--<textarea cols="50" rows="50" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>-->
+	
+
 	<div id="msgForm">
 		<textarea class="form-control" rows="3" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>
 		<button class="btn btn-primary" ng-click="sendMsg()">Send</button>
