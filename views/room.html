@@ -6,10 +6,7 @@
 <h4>{{topic}}</h4>
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
-	<div id="tabs">
-		<button class="btn btn-primary active">{{currentRoom}}</button>
-		<button class="btn btn-primary">{{currentUser}}</button>
-	</div>
+
 	<div id="chatWindow">
 		<ul id="messages">
 			<li ng-repeat="msg in messageHistory">
@@ -18,25 +15,28 @@
 		</ul>
 	</div>
 
-	
 
-	<div id="msgForm">
+
+	<div id="msgForm" >
 		<textarea class="form-control" rows="3" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>
 		<button class="btn btn-primary" ng-click="sendMsg()">Send</button>
 	</div>
 </div>
+
 <div class="col-md-3">
 	<h4>Ops in this room</h4>
 	<div class="well">
 		<ul>
-			<li ng-repeat="op in ops">{{op}}</li>
+			<li ng-repeat="op in ops"><span class="pointer">{{op}}</span></li>
 		</ul>
 	</div>
+
 	<h4>Users in this room</h4>
 	<div class="well">	
 		<ul>
 			<li ng-repeat="user in users">
-				<span ng-click="privateMsg(user)">{{user}}</span> 
+				<span class="pointer" ng-click="privateMsg(user)">{{user}}</span>
+				<button class="asText" ng-click="privateMsg(user)">Send Message</button> 
 				<span ng-cloak ng-show="isOp == true">
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
@@ -44,7 +44,25 @@
 			</li>
 		</ul>
 	</div>
+
+	<h4>Private Messages</h4>
+	<div class="well">
+		<span>From: {{fromUser}} Message: {{privateMessage}} </span>
+		<!--<ul>
+			<li ng-repeat="msg in privateMessages">
+				<span>{{msg.fromUser}} said: </span><span>{{msg.privateMessage}}
+			</li>
+		</ul>-->
+
+	</div>
 	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
+
+	<!--<ul id="messages">
+	<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''">
+			<li ng-repeat="msg in messageHistory">
+				<span id="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+			</li>
+		</ul>-->
 	
 </div>
 

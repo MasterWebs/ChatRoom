@@ -30,3 +30,8 @@
     padding:0;
     color: #d9534f;
 }
+
+.pointer {
+	 cursor: pointer; 
+	 cursor: hand;
+}

@@ -47,10 +47,13 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.users = [];
 	$scope.ops = [];
 	$scope.messageHistory = [];
+	$scope.topic = '';
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
 	$scope.isOp = false;
 	$scope.userToKick = ''; //gets the input to kick user
+	$scope.privateMessage = '';
+	$scope.fromUser = '';
 
 	$scope.partRoom = function () {
 		// redirect user to room list
@@ -70,6 +73,24 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			socket.emit('sendmsg', message);
 			$("#msg").val('');
 			$scope.nextMessage = '';
+		}
+	};
+
+	$scope.privateMsg = function (user) {
+		if($scope.nextMessage !== '') {
+			//only handle non-empty messages
+			var message = {
+				nick: user,
+				message: $scope.nextMessage
+			};
+			console.log("nick: " + message.user);
+			console.log("message: " + message.message);
+			//send private message
+			socket.emit('privatemsg', message, function (sent) {
+				if(!sent) {
+					$scope.errorMessage = "Could not send message";
+				}
+			});
 		}
 	};
 
@@ -104,6 +125,11 @@ and "updateusers" to the rest of the users in the room.*/
 			}
 		});
 	};
+
+	socket.on('recv_privatemsg', function(username, message) {
+		$scope.fromUser = username;
+		$scope.privateMessage = message;
+	});
 
 	socket.on('banned', function(room, userKicked, user) {
 		console.log("socket on");
@@ -165,6 +191,13 @@ and "updateusers" to the rest of the users in the room.*/
 		if (roomName === $scope.currentRoom) {
 			// empty list of messages
 			$scope.messageHistory = msgHistory;
+		}
+	});
+
+	socket.on('updatetopic', function (roomName, topic, user) {
+		// we only want to update the topic for this particular room
+		if (roomName === $scope.currentRoom) {
+			$scope.topic = topic;
 		}
 	});
 });
