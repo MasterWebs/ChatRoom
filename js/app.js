@@ -125,7 +125,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			};
 			// send message to server
 			socket.emit('sendmsg', message);
-			console.log("clear message");
 			$("#msg").val('');
 			$scope.nextMessage = '';
 		}
@@ -138,20 +137,38 @@ The server will emit the following events if the user was successfully kicked: "
 and "updateusers" to the rest of the users in the room.*/
 	$scope.kickUser = function (user) {
 		//only handle non-empty kicks
-		console.log("inside kick");
 		var kick = {
 			user: user,
 			room: $scope.currentRoom
 		};
 
 		socket.emit('kick', kick, function(kicked) {
-			if(kicked) {
-				console.log("kicked");
-			} else {
-				console.log("not Kicked");
-			}
+			if(!kicked) 
+				$scope.errorMessage = "Could not kick user";
+			
 		});
 	};
+
+	$scope.banUser = function(user) {
+		var ban = {
+			user: user,
+			room: $scope.currentRoom
+		};
+
+		socket.emit('ban', ban, function(banned) {
+			if(banned)
+				console.log("banned");
+		});
+	};
+
+	socket.on('banned', function(room, userKicked, user) {
+		console.log("socket on");
+		if($scope.currentRoom === room && $scope.currentUser === userKicked) {
+			//the user in this room has been banned
+			//redirect to lobby
+			$location.path('/rooms/' + $scope.currentUser);
+		}
+	});
 
 	socket.on('kicked', function (room, userKicked, user) {
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
@@ -169,12 +186,10 @@ and "updateusers" to the rest of the users in the room.*/
 		// we only want to update the users for this particular room
 		if (roomName === $scope.currentRoom) {
 			// empty list of users and ops
-			console.log('update the users!');
 			$scope.users = [];
 			$scope.ops = [];
 			// populate users and ops lists with updated information
 			for (var op in ops) {
-				console.log('adding op: ' + op);
 				$scope.ops.push(op);
 			}
 			for (var user in users) {
@@ -193,10 +208,8 @@ and "updateusers" to the rest of the users in the room.*/
 			}
 
 			for(var i = 0; i < $scope.ops.length; i++) {
-				console.log("inside for");
 				if($scope.currentUser == $scope.ops[i]) {
 					$scope.isOp = true;
-					console.log("found op");
 				}
 			}
 		}

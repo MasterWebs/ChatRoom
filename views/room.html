@@ -34,18 +34,12 @@
 				{{user}} 
 				<span ng-cloak ng-show="isOp == true">
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
-					<button class="asText">Ban</button>
+					<button class="asText" ng-click="banUser(user)">Ban</button>
 				</span>
 			</li>
 		</ul>
 	</div>
 	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
-	
-	<!-- this is no longer needed
-	<div ng-cloak ng-show="isOp == true">
-		<input type="text" class="form-control" ng-model="userToKick" >
-		<button class="btn btn-alert" ng-click="kickUser()">Kick</button>
-	</div> -->
 	
 </div>
 
