@@ -48,12 +48,24 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.ops = [];
 	$scope.messageHistory = [];
 	$scope.topic = '';
+	$scope.banned = false;
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
 	$scope.isOp = false;
 	$scope.userToKick = ''; //gets the input to kick user
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
+
+	var joinObj = {
+		room: $scope.currentRoom
+	};
+
+	socket.emit('joinroom', joinObj, function (success, reason) {
+		if (!success) {
+			$scope.errorMessage = "You have been banned from this room, you will not see any activity";
+			$scope.banned = true;
+		}
+	});
 
 	$scope.partRoom = function () {
 		// redirect user to room list
@@ -121,7 +133,7 @@ and "updateusers" to the rest of the users in the room.*/
 
 		socket.emit('ban', ban, function(banned) {
 			if (!banned) {
-				$scope.errorMessage = "Coult not ban " + user;
+				$scope.errorMessage = "Could not ban " + user;
 			}
 		});
 	};
@@ -155,7 +167,8 @@ and "updateusers" to the rest of the users in the room.*/
 
 	socket.on('updateusers', function (roomName, users, ops) {
 		// we only want to update the users for this particular room
-		if (roomName === $scope.currentRoom) {
+		// and if the user is not banned
+		if (roomName === $scope.currentRoom && !$scope.banned) {
 			// empty list of users and ops
 			$scope.users = [];
 			$scope.ops = [];
@@ -163,6 +176,7 @@ and "updateusers" to the rest of the users in the room.*/
 			for (var op in ops) {
 				$scope.ops.push(op);
 			}
+
 			for (var user in users) {
 				// we do not want ops to be listed as users
 				var isOp = false;
@@ -188,7 +202,8 @@ and "updateusers" to the rest of the users in the room.*/
 
 	socket.on('updatechat', function (roomName, msgHistory) {
 		// we only want to update the messages for this particular room
-		if (roomName === $scope.currentRoom) {
+		// and if the user is not banned
+		if (roomName === $scope.currentRoom && !$scope.banned) {
 			// empty list of messages
 			$scope.messageHistory = msgHistory;
 		}
@@ -196,7 +211,8 @@ and "updateusers" to the rest of the users in the room.*/
 
 	socket.on('updatetopic', function (roomName, topic, user) {
 		// we only want to update the topic for this particular room
-		if (roomName === $scope.currentRoom) {
+		// and if the user is not banned
+		if (roomName === $scope.currentRoom && !$scope.banned) {
 			$scope.topic = topic;
 		}
 	});
@@ -221,18 +237,8 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	});
 
 	$scope.enterRoom = function(roomEntered) {
-		var room = {
-			room: roomEntered
-		};
-
-		socket.emit('joinroom', room, function (success, reason) {
-			if (!success) {
-				$scope.errorMessage = reason;
-			} else {
-				console.log('room: ' + roomEntered + " user: " + $scope.currentUser);
-				$location.path('/rooms/' + $scope.currentUser + '/' + roomEntered);
-			}
-		});
+		// redirect user to room page
+		$location.path('/rooms/' + $scope.currentUser + '/' + roomEntered);
 	};
 
 	$scope.createRoom = function() {

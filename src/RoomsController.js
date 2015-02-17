@@ -17,18 +17,8 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	});
 
 	$scope.enterRoom = function(roomEntered) {
-		var room = {
-			room: roomEntered
-		};
-
-		socket.emit('joinroom', room, function (success, reason) {
-			if (!success) {
-				$scope.errorMessage = reason;
-			} else {
-				console.log('room: ' + roomEntered + " user: " + $scope.currentUser);
-				$location.path('/rooms/' + $scope.currentUser + '/' + roomEntered);
-			}
-		});
+		// redirect user to room page
+		$location.path('/rooms/' + $scope.currentUser + '/' + roomEntered);
 	};
 
 	$scope.createRoom = function() {
