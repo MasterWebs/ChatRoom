@@ -227,6 +227,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.successMessage = '';
 	$scope.roomName = '';
 	socket.emit('rooms');
+
 	socket.on('roomlist', function (rooms) {
 		// clear room list
 		$scope.roomList = [];
