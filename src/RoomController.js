@@ -4,6 +4,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.users = [];
 	$scope.ops = [];
 	$scope.messageHistory = [];
+	$scope.topic = '';
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
 	$scope.isOp = false;
@@ -122,6 +123,13 @@ and "updateusers" to the rest of the users in the room.*/
 		if (roomName === $scope.currentRoom) {
 			// empty list of messages
 			$scope.messageHistory = msgHistory;
+		}
+	});
+
+	socket.on('updatetopic', function (roomName, topic, user) {
+		// we only want to update the topic for this particular room
+		if (roomName === $scope.currentRoom) {
+			$scope.topic = topic;
 		}
 	});
 });
