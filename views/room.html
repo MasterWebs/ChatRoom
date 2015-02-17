@@ -27,7 +27,10 @@
 	<h4>Ops in this room</h4>
 	<div class="well">
 		<ul>
-			<li ng-repeat="op in ops"><span class="pointer">{{op}}</span></li>
+			<li ng-repeat="op in ops">
+				<span class="pointer">{{op}}</span>
+				<button class="asText" ng-click="privateMsg(op)">Send Message</button>
+			</li>
 		</ul>
 	</div>
 
@@ -35,7 +38,7 @@
 	<div class="well">	
 		<ul>
 			<li ng-repeat="user in users">
-				<span class="pointer" ng-click="privateMsg(user)">{{user}}</span>
+				<span class="pointer">{{user}}</span>
 				<button class="asText" ng-click="privateMsg(user)">Send Message</button> 
 				<span ng-cloak ng-show="isOp === true">
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
