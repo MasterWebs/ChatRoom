@@ -94,7 +94,7 @@ io.sockets.on('connection', function (socket) {
 			io.sockets.emit('servermessage', "join", room, socket.username);
 		}
 		fn(false, reason);
-	});
+	} );
 
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendmsg', function (data) {
