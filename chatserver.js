@@ -50,8 +50,6 @@ io.sockets.on('connection', function (socket) {
 			if(pass !== undefined) {
 				rooms[room].setPassword(pass);
 			}
-			//Send updated room list to the client
-			socket.emit('roomlist', rooms);
 			//Keep track of the room in the user object.
 			users[socket.username].channels[room] = room;
 			//Send the room information to the client.
@@ -60,6 +58,8 @@ io.sockets.on('connection', function (socket) {
 			//Update topic
 			socket.emit('updatetopic', room, rooms[room].topic, socket.username);
 			io.sockets.emit('servermessage', "join", room, socket.username);
+			//Send updated room list to the client
+			io.sockets.emit('roomlist', rooms);
 		}
 		//If the room isn't locked we set accepted to true.
 		if(rooms[room].locked === false) {
