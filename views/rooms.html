@@ -1,23 +1,42 @@
-<div class="jumbotron">
+<div class="well well-lg">
 	<h3>Hi {{currentUser}}</h3>
 	<p>
 		Here you can see a list of active chat rooms. To enter a chat room you simply press
 		the name of the chat room you wish to enter. You can also create your own chat room
-		by typing the name of your chat room in the input field and press "Create Room" button
+		by typing the name of your chat room in the input field and press "Create Room" button.
 	</p>
 </div>
 
 <div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
 
-<div class="well">
-	<h4>Active Rooms</h4>
-    <ul ng-repeat="room in roomList">
-        <li><a ng-click="enterRoom(room)"><span class="pointer">{{room}}</span></a></li>
-    </ul>
-    
-    <div class="form-group">
-		<label for="roomName" class="control-label">Create new Room</label>
-		<input type="text" class="form-control" id="roomName" name="roomName" ng-model="roomName" />
+<div class="col-md-6">
+	<div class="well well-lg">
+		<div class="input-group">
+      		<input type="text" class="form-control" ng-model="roomName"placeholder="Room Name">
+      		<span class="input-group-btn">
+        		<button class="btn btn-primary" type="button" ng-click="createRoom()">Create</button>
+     		 </span>
+    	</div><!-- /input-group -->
+
+		<!--<div class="form-group">
+			<label for="roomName" class="control-label">Create new Room</label>
+			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
+			<button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
+		</div>-->
+		<h4>Active Rooms</h4>
+    	<ul ng-repeat="room in roomList">
+        	<li><a ng-click="enterRoom(room)"><span class="pointer">{{room}}</span></a></li>
+    	</ul>
 	</div>
-	<button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
+</div>
+	
+	<!--<div class="col-md-6">    
+	    <div class="form-group">
+			<label for="roomName" class="control-label">Create new Room</label>
+			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
+			<input type="text" class="form-control input" ng-model="roomTopic" placeholder="Topic" />
+			<input type="text" class="form-control input" ng-model="roomPassword" placeholder="Password" />
+		</div>
+		
+	</div>-->
 </div>

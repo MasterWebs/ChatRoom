@@ -3,7 +3,8 @@
 </div>
 
 <h3>Hi {{currentUser}} - Room {{currentRoom}}</h3>
-<h4>{{topic}}</h4>
+<h4 ng-show="roomTopic !== ''">{{roomTopic}}</h4>
+
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
 	<button class="btn btn-default" ng-click="private=false">{{currentRoom}}</button>
@@ -11,7 +12,7 @@
 	
 	<div id="chatWindow">
 		<ul id="messages" ng-hide="private">
-			<li><span class="msgNick">{{currentRoom}}</span></li>
+			<li><span class=>{{currentRoom}}</span></li>
 			<li ng-repeat="msg in messageHistory" >
 				<span class="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
 			</li>
@@ -48,12 +49,19 @@
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
 				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button> 
-				<span ng-cloak ng-show="isOp === true && user" >
+				<span ng-cloak ng-show="isOp === true" >
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
 				</span>
 			</li>
 		</ul>
+	</div>
+
+	<h4>Options</h4>
+	<div class="well" ng-show="isOp === true"> 
+		<input type="text" class="form-control input" ng-model="topic" placeholder="Topic" />
+		<input type="text" class="form-control input" ng-model="password" placeholder="Password" />
+		<button type="button" class="btn btn-primary" ng-click="options()">Set</button>
 	</div>
 
 	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>

@@ -49,6 +49,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.messageHistory = [];
 	$scope.privateMsgHistory = [];
 	$scope.topic = '';
+	$scope.roomTopic = '';
 	$scope.banned = false;
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
@@ -56,6 +57,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.userToKick = ''; //gets the input to kick user
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
+	$scope.password = '';
 
 	var joinObj = {
 		room: $scope.currentRoom
@@ -67,6 +69,25 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			$scope.banned = true;
 		}
 	});
+
+	$scope.options = function () {
+		if($scope.topic === '' && $scope.password === '') {
+			$scope.errorMessage = "You must fill in topic or password";
+		}
+		else {
+
+			var topic = {
+				topic: $scope.topic
+			};
+			console.log(topic.topic);
+			if($scope.topic !== '') {
+				socket.emit('settopic', topic);
+				console.log("emmited");
+			}
+		}
+
+
+	};
 
 	$scope.partRoom = function () {
 		// redirect user to room list
@@ -219,14 +240,16 @@ and "updateusers" to the rest of the users in the room.*/
 		if (roomName === $scope.currentRoom && !$scope.banned) {
 			// empty list of messages
 			$scope.messageHistory = msgHistory;
+			console.log(msgHistory);
 		}
 	});
 
 	socket.on('updatetopic', function (roomName, topic, user) {
 		// we only want to update the topic for this particular room
 		// and if the user is not banned
+		console.log("soket on");
 		if (roomName === $scope.currentRoom && !$scope.banned) {
-			$scope.topic = topic;
+			$scope.roomTopic = topic;
 		}
 	});
 });
