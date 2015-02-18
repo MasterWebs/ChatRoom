@@ -4,6 +4,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.users = [];
 	$scope.ops = [];
 	$scope.messageHistory = [];
+	$scope.privateMsgHistory = [];
 	$scope.topic = '';
 	$scope.banned = false;
 	$scope.nextMessage = '';
@@ -58,6 +59,9 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			socket.emit('privatemsg', message, function (sent) {
 				if(!sent) {
 					$scope.errorMessage = "Could not send message";
+				} else {
+					$("#msg").val('');
+					$scope.nextMessage = '';
 				}
 			});
 		}
@@ -96,8 +100,14 @@ and "updateusers" to the rest of the users in the room.*/
 	};
 
 	socket.on('recv_privatemsg', function(username, message) {
-		$scope.fromUser = username;
-		$scope.privateMessage = message;
+		/*$scope.fromUser = username;
+		$scope.privateMessage = message;*/
+		var msg = {
+			nick: username,
+			message: message
+		};
+
+		$scope.privateMsgHistory.push(msg);
 	});
 
 	socket.on('banned', function(room, userKicked, user) {

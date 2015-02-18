@@ -6,20 +6,28 @@
 <h4>{{topic}}</h4>
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
-
+	<button class="btn btn-default" ng-click="private=false">{{currentRoom}}</button>
+	<button class="btn btn-default" ng-click="private=true">Private Messages</button>
+	
 	<div id="chatWindow">
-		<ul id="messages">
-			<li ng-repeat="msg in messageHistory">
-				<span id="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+		<ul id="messages" ng-hide="private">
+			<li><span class="msgNick">{{currentRoom}}</span></li>
+			<li ng-repeat="msg in messageHistory" >
+				<span class="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+			</li>
+		</ul>
+
+		<ul id="messages" ng-show="private" >
+			<li><span class="prvtNick">Private Messages</span>
+			<li ng-repeat="msg in privateMsgHistory">
+				<span class="prvtNick">{{msg.nick}} said: </span><span>{{msg.message}}</span>
 			</li>
 		</ul>
 	</div>
 
-
-
 	<div id="msgForm" >
 		<textarea class="form-control" rows="3" id="msg" ng-model="nextMessage" name="msg" autocomplete="off" placeholder="Enter message"></textarea>
-		<button class="btn btn-primary" ng-click="sendMsg()">Send</button>
+		<button class="btn btn-primary" ng-click="sendMsg()" ng-hide="private">Send</button>
 	</div>
 </div>
 
@@ -39,8 +47,8 @@
 		<ul class="list">
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
-				<button class="asText" ng-click="privateMsg(user)">Send Message</button> 
-				<span ng-cloak ng-show="isOp === true">
+				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button> 
+				<span ng-cloak ng-show="isOp === true && user" >
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
 				</span>
@@ -48,24 +56,7 @@
 		</ul>
 	</div>
 
-	<h4>Private Messages</h4>
-	<div class="well">
-		<span>From: {{fromUser}} Message: {{privateMessage}} </span>
-		<!--<ul>
-			<li ng-repeat="msg in privateMessages">
-				<span>{{msg.fromUser}} said: </span><span>{{msg.privateMessage}}
-			</li>
-		</ul>-->
-
-	</div>
 	<button class="btn btn-primary" ng-click="partRoom()">Leave Room</button>
-
-	<!--<ul id="messages">
-	<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''">
-			<li ng-repeat="msg in messageHistory">
-				<span id="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
-			</li>
-		</ul>-->
 	
 </div>
 

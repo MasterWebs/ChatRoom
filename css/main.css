@@ -13,8 +13,12 @@
 	padding-left: 4px;
 }
 
-#msgNick {
+.msgNick {
 	color: #337ab7;
+}
+
+.prvtNick {
+	color: red;
 }
 
 #msgForm {
@@ -39,3 +43,4 @@
 .list {
 	padding: 0px;
 }
+
