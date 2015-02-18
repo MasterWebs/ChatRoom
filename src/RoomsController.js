@@ -36,18 +36,11 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			}
 		}
 		
-
 		if(!roomExist) {
 			if($scope.roomName !== '') {
-				socket.emit('joinroom', newRoom, function (success, reason) {
-					if(success) {
-						/* $scope.successMessage = "Room " + newRoom.room + " has been created";
-						$scope.roomList.push(newRoom.room); */
-						$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
-					} else {
-						$scope.errorMessage = reason;
-					}
-				});
+				// redirect user to his room, where it will be created
+				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
+				console.log("redirect to ze room");
 			} else {
 				$scope.errorMessage = "Room name cannot be empty";
 			}

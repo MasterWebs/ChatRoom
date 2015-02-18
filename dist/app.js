@@ -63,7 +63,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 
 	socket.emit('joinroom', joinObj, function (success, reason) {
 		if (!success) {
-			$scope.errorMessage = "You have been banned from this room, you will not see any activity";
+			$scope.errorMessage = "You have been banned from this room, you cannot see any activity or send messages";
 			$scope.banned = true;
 		}
 	});
@@ -154,7 +154,6 @@ and "updateusers" to the rest of the users in the room.*/
 	});
 
 	socket.on('banned', function(room, userKicked, user) {
-		console.log("socket on");
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
 			//the user in this room has been banned
 			//redirect to lobby
@@ -188,22 +187,26 @@ and "updateusers" to the rest of the users in the room.*/
 			}
 
 			for (var user in users) {
-				// we do not want ops to be listed as users
-				var isOp = false;
+				$scope.users.push(user);
+			}
 
-				for (var j = 0; j < $scope.ops.length; j++) {
-					if (user === $scope.ops[j]) {
-						isOp = true;
+			if ($scope.ops.length === 0 && $scope.users.length > 0) {
+				// if room has no op, the first user in user list is opped (if user list is not empty)
+				var userOpped = $scope.users.shift();
+				var opObj = {
+					user: userOpped,
+					room: $scope.currentRoom
+				};
+
+				socket.emit('op', opObj, function (success) {
+					if (success) {
+						console.log("user : " + opObj.user + " in room " + opObj.room + " opped!");
 					}
-				}
-
-				if (!isOp) {
-					$scope.users.push(user);
-				}
+				});
 			}
 
 			for(var i = 0; i < $scope.ops.length; i++) {
-				if($scope.currentUser == $scope.ops[i]) {
+				if($scope.currentUser === $scope.ops[i]) {
 					$scope.isOp = true;
 				}
 			}
@@ -266,18 +269,11 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			}
 		}
 		
-
 		if(!roomExist) {
 			if($scope.roomName !== '') {
-				socket.emit('joinroom', newRoom, function (success, reason) {
-					if(success) {
-						/* $scope.successMessage = "Room " + newRoom.room + " has been created";
-						$scope.roomList.push(newRoom.room); */
-						$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
-					} else {
-						$scope.errorMessage = reason;
-					}
-				});
+				// redirect user to his room, where it will be created
+				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
+				console.log("redirect to ze room");
 			} else {
 				$scope.errorMessage = "Room name cannot be empty";
 			}

@@ -60,40 +60,41 @@ io.sockets.on('connection', function (socket) {
 			io.sockets.emit('servermessage', "join", room, socket.username);
 			//Send updated room list to the client
 			io.sockets.emit('roomlist', rooms);
-		}
-		//If the room isn't locked we set accepted to true.
-		if(rooms[room].locked === false) {
-			accepted = true;
-		}
-		//Check if user submits the correct password
-		else {
-			//If it doesnt match we set accepted to false.
-			if(pass != rooms[room].password) {
-				accepted = false;
-				reason = "wrong password";
+		} else {
+			//If the room isn't locked we set accepted to true.
+			if(rooms[room].locked === false) {
+				accepted = true;
 			}
-		}
+			//Check if user submits the correct password
+			else {
+				//If it doesnt match we set accepted to false.
+				if(pass != rooms[room].password) {
+					accepted = false;
+					reason = "wrong password";
+				}
+			}
 
-		//Check if the user has been added to the ban list.
-		if(rooms[room].banned[socket.username] !== undefined) {
-			accepted = false;
-			reason = "banned";
+			//Check if the user has been added to the ban list.
+			if(rooms[room].banned[socket.username] !== undefined) {
+				accepted = false;
+				reason = "banned";
+			}
+			//If accepted is set to true at this point the user is allowed to join the room.
+			if(accepted) {
+				//We need to let the server know beforehand so that he starts to prepare the client template.
+				fn(true);
+				//Add user to room.
+				rooms[room].addUser(socket.username);
+				//Keep track of the room in the user object.
+				users[socket.username].channels[room] = room;
+				//Send the room information to the client.
+				io.sockets.emit('updateusers', room, rooms[room].users, rooms[room].ops);
+				socket.emit('updatechat', room, rooms[room].messageHistory);
+				socket.emit('updatetopic', room, rooms[room].topic, socket.username);
+				io.sockets.emit('servermessage', "join", room, socket.username);
+			}
+			fn(false, reason);
 		}
-		//If accepted is set to true at this point the user is allowed to join the room.
-		if(accepted) {
-			//We need to let the server know beforehand so that he starts to prepare the client template.
-			fn(true);
-			//Add user to room.
-			rooms[room].addUser(socket.username);
-			//Keep track of the room in the user object.
-			users[socket.username].channels[room] = room;
-			//Send the room information to the client.
-			io.sockets.emit('updateusers', room, rooms[room].users, rooms[room].ops);
-			socket.emit('updatechat', room, rooms[room].messageHistory);
-			socket.emit('updatetopic', room, rooms[room].topic, socket.username);
-			io.sockets.emit('servermessage', "join", room, socket.username);
-		}
-		fn(false, reason);
 	} );
 
 	// when the client emits 'sendchat', this listens and executes
@@ -187,7 +188,7 @@ io.sockets.on('connection', function (socket) {
 	//When a user tries to op another user this gets performed.
 	socket.on('op', function (opObj, fn) {
 		console.log(socket.username + " opped " + opObj.user + " from " + opObj.room);
-		if(rooms[opObj.room].ops[socket.username] !== undefined) {
+		if(rooms[opObj.room].users[opObj.user] !== undefined) {
 			//Remove the user from the room roster.
 			delete rooms[opObj.room].users[opObj.user];
 			//Op the user.
@@ -197,8 +198,7 @@ io.sockets.on('connection', function (socket) {
 			//Update user list for room.
 			io.sockets.emit('updateusers', opObj.room, rooms[opObj.room].users, rooms[opObj.room].ops);
 			fn(true);
-		}
-		else {
+		} else {
 			fn(false); // Send back failed, debugging..
 		}
 	});
