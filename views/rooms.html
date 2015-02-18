@@ -1,7 +1,16 @@
-<h3>Hi {{currentUser}} - Active chat rooms</h3>
+<div class="jumbotron">
+	<h3>Hi {{currentUser}}</h3>
+	<p>
+		Here you can see a list of active chat rooms. To enter a chat room you simply press
+		the name of the chat room you wish to enter. You can also create your own chat room
+		by typing the name of your chat room in the input field and press "Create Room" button
+	</p>
+</div>
+
 <div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
 
 <div class="well">
+	<h4>Active Rooms</h4>
     <ul ng-repeat="room in roomList">
         <li><a ng-click="enterRoom(room)"><span class="pointer">{{room}}</span></a></li>
     </ul>

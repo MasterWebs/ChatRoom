@@ -1,20 +1,22 @@
-<div class="container">
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Choose your nick</div>
-            <div class="panel-body">
 
-                <div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''">
-                    {{errorMessage}}
-                </div>
+<div class="jumbotron">
+    <h3>Hello user!</h3>
+    <p>
+        To use our chat program you simply have to choose a nickname and press "Enter chat" button. Any nick
+        will do, if it is not already taken. When you have entered the chat, you will see a list of available
+        chat rooms.
+    </p>
+    <div class="container">
+        <div class="col-md-4">
+            
+            <div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''">{{errorMessage}}</div>
 
                 <div class="form-group">
                     <label for="nickname" class="control-label">Nick-name</label>
                     <input type="text" class="form-control" id="nickname" name="nickname" ng-model="nickname" />
                 </div>
 
-                <button type="button" class="btn btn-primary" ng-click="login()">Enter chat</button>
-            </div>
+            <button type="button" class="btn btn-primary" ng-click="login()">Enter chat</button>
         </div>
     </div>
 </div>
