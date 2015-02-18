@@ -14,14 +14,18 @@
 		<ul id="messages" ng-hide="private">
 			<li><span class=>{{currentRoom}}</span></li>
 			<li ng-repeat="msg in messageHistory" >
-				<span class="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+				<span class="timeStamp">{{msg.timestamp | date:'dd-MM HH:mm:ss'}}</span>
+				<span class="msgNick">{{msg.nick}} said: </span>
+				<span id="msgMsg">{{msg.message}}</span>
 			</li>
 		</ul>
 
 		<ul id="messages" ng-show="private" >
 			<li><span class="prvtNick">Private Messages</span>
 			<li ng-repeat="msg in privateMsgHistory">
-				<span class="prvtNick">{{msg.nick}} said: </span><span>{{msg.message}}</span>
+				<span class="timeStamp">{{msg.timestamp}}</span>
+				<span class="prvtNick">{{msg.nick}} </span>
+				<span>{{msg.message}}</span>
 			</li>
 		</ul>
 	</div>
