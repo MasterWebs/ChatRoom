@@ -32,6 +32,10 @@
 }
 
 .pointer {
-	 cursor: pointer; 
-	 cursor: hand;
+	cursor: pointer; 
+	cursor: hand;
+}
+
+.list {
+	padding: 0px;
 }
