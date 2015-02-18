@@ -13,14 +13,18 @@
 		<ul id="messages" ng-hide="private">
 			<li><span class="msgNick">{{currentRoom}}</span></li>
 			<li ng-repeat="msg in messageHistory" >
-				<span class="msgNick">{{msg.nick}} said: </span><span id="msgMsg">{{msg.message}}</span>
+				<span class="timeStamp">{{msg.timestamp | date:'dd-MM HH:mm:ss'}}</span>
+				<span class="msgNick">{{msg.nick}} said: </span>
+				<span id="msgMsg">{{msg.message}}</span>
 			</li>
 		</ul>
 
 		<ul id="messages" ng-show="private" >
 			<li><span class="prvtNick">Private Messages</span>
 			<li ng-repeat="msg in privateMsgHistory">
-				<span class="prvtNick">{{msg.nick}} said: </span><span>{{msg.message}}</span>
+				<span class="timeStamp">{{msg.timestamp}}</span>
+				<span class="prvtNick">{{msg.nick}} </span>
+				<span>{{msg.message}}</span>
 			</li>
 		</ul>
 	</div>
@@ -48,7 +52,7 @@
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
 				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button> 
-				<span ng-cloak ng-show="isOp === true && user" >
+				<span ng-cloak ng-show="isOp === true" >
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
 				</span>
