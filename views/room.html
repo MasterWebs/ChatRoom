@@ -42,7 +42,7 @@
 		<ul class="list">
 			<li ng-repeat="op in ops">
 				<span class="pointer">{{op}}</span>
-				<button class="asText pointer" ng-click="privateMsg(op)">Send Message</button>
+				<button class="asText pointer" ng-click="privateMsg(op)" ng-show="private">Send Message</button>
 			</li>
 		</ul>
 	</div>
