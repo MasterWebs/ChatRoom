@@ -32,14 +32,12 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			$scope.errorMessage = "You must fill in topic or password";
 		}
 		else {
-
-			var topic = {
-				topic: $scope.topic
-			};
-			console.log(topic.topic);
 			if($scope.topic !== '') {
+				var topic = {
+					room: $scope.currentRoom,
+					topic: $scope.topic
+				};	
 				socket.emit('settopic', topic);
-				console.log("emmited");
 			}
 		}
 
@@ -62,7 +60,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			};
 			// send message to server
 			socket.emit('sendmsg', message);
-			$("#msg").val('');
+			console.log("is the message empty?");
 			$scope.nextMessage = '';
 		}
 	};
@@ -74,14 +72,11 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 				nick: user,
 				message: $scope.nextMessage
 			};
-			console.log("nick: " + message.user);
-			console.log("message: " + message.message);
 			//send private message
 			socket.emit('privatemsg', message, function (sent) {
 				if(!sent) {
 					$scope.errorMessage = "Could not send message";
 				} else {
-					$("#msg").val('');
 					$scope.nextMessage = '';
 				}
 			});
@@ -177,9 +172,8 @@ and "updateusers" to the rest of the users in the room.*/
 				};
 
 				socket.emit('op', opObj, function (success) {
-					if (success) {
-						console.log("user : " + opObj.user + " in room " + opObj.room + " opped!");
-					}
+					// we don't have to do anything, if user is opped the updateusers
+					// event will let our client know
 				});
 			}
 
@@ -197,14 +191,12 @@ and "updateusers" to the rest of the users in the room.*/
 		if (roomName === $scope.currentRoom && !$scope.banned) {
 			// empty list of messages
 			$scope.messageHistory = msgHistory;
-			console.log(msgHistory);
 		}
 	});
 
 	socket.on('updatetopic', function (roomName, topic, user) {
 		// we only want to update the topic for this particular room
 		// and if the user is not banned
-		console.log("soket on");
 		if (roomName === $scope.currentRoom && !$scope.banned) {
 			$scope.roomTopic = topic;
 		}

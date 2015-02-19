@@ -52,7 +52,7 @@
 		<ul class="list">
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
-				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button> 
+				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button>
 				<span ng-cloak ng-show="isOp === true" >
 					<button class="asText" ng-click="kickUser(user)">Kick</button>
 					<button class="asText" ng-click="banUser(user)">Ban</button>
