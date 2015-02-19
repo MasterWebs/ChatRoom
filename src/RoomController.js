@@ -14,7 +14,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.userToKick = ''; //gets the input to kick user
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
-	$scope.password = '';
 
 	var joinObj = {
 		room: $scope.currentRoom
