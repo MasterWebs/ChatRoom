@@ -56,7 +56,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.isOp = false;
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
-	$scope.password = '';
 	$scope.private = false;
 
 	var joinObj = {
@@ -72,17 +71,14 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	});
 
 	$scope.options = function () {
-		if($scope.topic === '' && $scope.password === '') {
-			$scope.errorMessage = "You must fill in topic or password";
-		}
-		else {
-			if($scope.topic !== '') {
-				var topic = {
-					room: $scope.currentRoom,
-					topic: $scope.topic
-				};	
-				socket.emit('settopic', topic);
-			}
+		if($scope.topic === '') {
+			toastr.error('You must fill in topic or password');
+		} else {
+			var topic = {
+				room: $scope.currentRoom,
+				topic: $scope.topic
+			};	
+			socket.emit('settopic', topic);
 		}
 
 
