@@ -7,12 +7,11 @@
 
 <div class="col-md-9">
 	<!-- Temporary message list, we must make this much cooler brah -->
-	<button class="btn btn-default" ng-click="private=false">{{currentRoom}}</button>
-	<button class="btn btn-default" ng-click="private=true">Private Messages</button>
+	<button class="btn btn-default" ng-click="private=false" ng-class="{ 'active': !private }">{{currentRoom}}</button>
+	<button class="btn btn-default" ng-click="private=true" ng-class="{ 'active': private }">Private Messages</button>
 	
 	<div id="chatWindow">
 		<ul id="messages" ng-hide="private">
-			<li><span class=>{{currentRoom}}</span></li>
 			<li ng-repeat="msg in messageHistory" >
 				<span class="timeStamp">{{msg.timestamp | date:'dd-MM HH:mm:ss'}}</span>
 				<span class="msgNick">{{msg.nick}} said: </span>
@@ -21,9 +20,7 @@
 		</ul>
 
 		<ul id="messages" ng-show="private" >
-			<li><span class="prvtNick">Private Messages</span>
 			<li ng-repeat="msg in privateMsgHistory">
-				<span class="timeStamp">{{msg.timestamp}}</span>
 				<span class="prvtNick">{{msg.nick}} </span>
 				<span>{{msg.message}}</span>
 			</li>

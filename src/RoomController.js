@@ -11,10 +11,10 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.nextMessage = '';
 	$scope.errorMessage = '';
 	$scope.isOp = false;
-	$scope.userToKick = ''; //gets the input to kick user
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
 	$scope.password = '';
+	$scope.private = false;
 
 	var joinObj = {
 		room: $scope.currentRoom
