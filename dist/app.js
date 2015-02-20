@@ -290,7 +290,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 				toastr.error('Room name cannot be empty');
 			}
 		} else {
-			toastr.error('Room name already exists');
+			toastr.error('The room ' + $scope.roomName + ' already exists');
 		}
 		
 	};
