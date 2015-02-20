@@ -72,7 +72,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			//send private message
 			socket.emit('privatemsg', message, function (sent) {
 				if(!sent) {
-					$scope.errorMessage = "Could not send message";
+					toastr.error('Could not send message');
 				} else {
 					$scope.nextMessage = '';
 				}
