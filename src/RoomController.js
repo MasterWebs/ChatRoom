@@ -22,8 +22,9 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 
 	socket.emit('joinroom', joinObj, function (success, reason) {
 		if (!success) {
-			$scope.errorMessage = "You have been banned from this room, you cannot see any activity or send messages";
 			$scope.banned = true;
+			toastr.error('You have been banned from room ' + $scope.currentRoom);
+			$location.path('/rooms/' + $scope.currentUser);
 		}
 	});
 
@@ -130,6 +131,7 @@ and "updateusers" to the rest of the users in the room.*/
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
 			//the user in this room has been banned
 			//redirect to lobby
+			toastr.error('You have been banned from room ' + $scope.currentRoom);
 			$location.path('/rooms/' + $scope.currentUser);
 		} 
 	});
@@ -138,6 +140,7 @@ and "updateusers" to the rest of the users in the room.*/
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
 			// the user in this room has been kicked
 			// redirect him to the room list
+			toastr.warning('You have been kicked from room ' + $scope.currentRoom);
 			$location.path('/rooms/' + $scope.currentUser);
 		}
 	});
