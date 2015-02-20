@@ -14,27 +14,11 @@
       		<span class="input-group-btn">
         		<button class="btn btn-primary" type="button" ng-click="createRoom()">Create</button>
      		 </span>
-    	</div><!-- /input-group -->
-
-		<!--<div class="form-group">
-			<label for="roomName" class="control-label">Create new Room</label>
-			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
-			<button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
-		</div>-->
+    	</div>
+    	
 		<h4>Active Rooms</h4>
     	<ul ng-repeat="room in roomList">
         	<li><a ng-click="enterRoom(room)"><span class="pointer">{{room}}</span></a></li>
     	</ul>
 	</div>
-</div>
-	
-	<!--<div class="col-md-6">    
-	    <div class="form-group">
-			<label for="roomName" class="control-label">Create new Room</label>
-			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
-			<input type="text" class="form-control input" ng-model="roomTopic" placeholder="Topic" />
-			<input type="text" class="form-control input" ng-model="roomPassword" placeholder="Password" />
-		</div>
-		
-	</div>-->
 </div>
