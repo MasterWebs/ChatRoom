@@ -36,7 +36,14 @@
     border:none;
     margin:0;
     padding:0;
-    color: #d9534f;
+}
+
+.red {
+	color: #d9534f;
+}
+
+.blue {
+	color: #337ab7;
 }
 
 .pointer {

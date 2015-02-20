@@ -1,3 +1,15 @@
+<div class="well well-lg" ng-hide="!help" ng-show="help">
+	<h3>Hi {{currentUser}}</h3>
+	<p>
+		In the "{{currentRoom}}" tab you can see messages from all users in the room. To sent a message
+		to all users, you fill in the message field and press the send button. All private messages can
+		be seen under the "Private messages tab". To send a private message you press "Private messages" tab,
+		from there you fill in the message field and and press "send message" right to user you wish to send in the user or op's
+		list.
+	</p>
+	<button class="asText blue" ng-click="help=false">Hide Help</button>
+</div>
+
 <h3>{{currentRoom}}</h3>
 <h4 ng-show="roomTopic !== ''">{{roomTopic}}</h4>
 
@@ -5,7 +17,8 @@
 	<!-- Temporary message list, we must make this much cooler brah -->
 	<button class="btn btn-default" ng-click="private=false" ng-class="{ 'active': !private }">{{currentRoom}}</button>
 	<button class="btn btn-default" ng-click="private=true" ng-class="{ 'active': private }">Private Messages</button>
-	
+	<button class="asText right blue" ng-click="help=true" ng-show="!help">Show Help</button>
+
 	<div id="chatWindow">
 		<ul id="messages" ng-hide="private">
 			<li ng-repeat="msg in messageHistory" >
@@ -35,7 +48,7 @@
 		<ul class="list">
 			<li ng-repeat="op in ops">
 				<span class="pointer">{{op}}</span>
-				<button class="asText pointer" ng-click="privateMsg(op)" ng-show="private">Send Message</button>
+				<button class="asText red" ng-click="privateMsg(op)" ng-show="private">Send Message</button>
 			</li>
 		</ul>
 	</div>
@@ -45,10 +58,10 @@
 		<ul class="list">
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
-				<button class="asText" ng-click="privateMsg(user)" ng-show="private">Send Message</button>
+				<button class="asText red" ng-click="privateMsg(user)" ng-show="private">Send Message</button>
 				<span ng-cloak ng-show="isOp === true" >
-					<button class="asText" ng-click="kickUser(user)">Kick</button>
-					<button class="asText" ng-click="banUser(user)">Ban</button>
+					<button class="asText red" ng-click="kickUser(user)">Kick</button>
+					<button class="asText red" ng-click="banUser(user)">Ban</button>
 				</span>
 			</li>
 		</ul>

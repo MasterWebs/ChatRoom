@@ -120,6 +120,8 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 					$scope.nextMessage = '';
 				}
 			});
+		} else {
+			toastr.error("Message field cannot be empty");
 		}
 	};
 
