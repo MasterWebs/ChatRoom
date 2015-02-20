@@ -35,6 +35,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 				topic: $scope.topic
 			};	
 			socket.emit('settopic', topic);
+			toastr.success("Topic changed to " + $scope.topic);
 			$scope.topic = '';
 		}
 
