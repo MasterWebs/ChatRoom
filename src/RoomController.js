@@ -28,13 +28,14 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 
 	$scope.options = function () {
 		if($scope.topic === '') {
-			toastr.error('You must fill in topic or password');
+			toastr.error('You must fill in topic');
 		} else {
 			var topic = {
 				room: $scope.currentRoom,
 				topic: $scope.topic
 			};	
 			socket.emit('settopic', topic);
+			$scope.topic = '';
 		}
 
 
