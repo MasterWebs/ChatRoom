@@ -114,6 +114,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 				if(!sent) {
 					toastr.error('Could not send message');
 				} else {
+					toastr.success('\"' + $scope.nextMessage + '\" sent to ' + user);
 					$scope.nextMessage = '';
 				}
 			});
@@ -159,6 +160,8 @@ and "updateusers" to the rest of the users in the room.*/
 			nick: username,
 			message: message
 		};
+
+		toastr.info('\"' + message + '\" from ' + username, 'Private Message');
 
 		$scope.privateMsgHistory.push(msg);
 	});
