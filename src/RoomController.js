@@ -9,7 +9,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.roomTopic = '';
 	$scope.banned = false;
 	$scope.nextMessage = '';
-	$scope.errorMessage = '';
 	$scope.isOp = false;
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
@@ -94,7 +93,7 @@ and "updateusers" to the rest of the users in the room.*/
 
 		socket.emit('kick', kick, function(kicked) {
 			if (!kicked) {
-				$scope.errorMessage = "Could not kick user";
+				toastr.error('Could not kick user');
 			}
 		});
 	};
@@ -107,7 +106,7 @@ and "updateusers" to the rest of the users in the room.*/
 
 		socket.emit('ban', ban, function(banned) {
 			if (!banned) {
-				$scope.errorMessage = "Could not ban " + user;
+				toastr.error('Could not ban ' + user);
 			}
 		});
 	};
