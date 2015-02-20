@@ -3,7 +3,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.rooms = [];
 	$scope.roomList = [];
 	$scope.currentUser = $routeParams.user;
-	$scope.errorMessage = '';
 	$scope.successMessage = '';
 	$scope.roomName = '';
 	socket.emit('rooms');
@@ -42,10 +41,10 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
 				console.log("redirect to ze room");
 			} else {
-				$scope.errorMessage = "Room name cannot be empty";
+				toastr.error('Room name cannot be empty');
 			}
 		} else {
-			$scope.errorMessage = "Room name already exists";
+			toastr.error('The room ' + $scope.roomName + ' already exists');
 		}
 		
 	};

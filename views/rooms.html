@@ -7,36 +7,18 @@
 	</p>
 </div>
 
-<div class="alert alert-danger" ng-cloak ng-show="errorMessage != ''"> {{errorMessage}} </div>
-
 <div class="col-md-6">
 	<div class="well well-lg">
 		<div class="input-group">
       		<input type="text" class="form-control" ng-model="roomName"placeholder="Room Name">
       		<span class="input-group-btn">
-        		<button class="btn btn-primary" type="button" ng-click="createRoom()">Create</button>
+        		<button class="btn btn-primary" type="button" ng-click="createRoom()">Create Room</button>
      		 </span>
-    	</div><!-- /input-group -->
+    	</div>
 
-		<!--<div class="form-group">
-			<label for="roomName" class="control-label">Create new Room</label>
-			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
-			<button type="button" class="btn btn-primary" ng-click="createRoom()">Create Room</button>
-		</div>-->
 		<h4>Active Rooms</h4>
     	<ul ng-repeat="room in roomList">
         	<li><a ng-click="enterRoom(room)"><span class="pointer">{{room}}</span></a></li>
     	</ul>
 	</div>
-</div>
-	
-	<!--<div class="col-md-6">    
-	    <div class="form-group">
-			<label for="roomName" class="control-label">Create new Room</label>
-			<input type="text" class="form-control input" ng-model="roomName" placeholder="Name" />
-			<input type="text" class="form-control input" ng-model="roomTopic" placeholder="Topic" />
-			<input type="text" class="form-control input" ng-model="roomPassword" placeholder="Password" />
-		</div>
-		
-	</div>-->
 </div>

@@ -22,19 +22,17 @@ ChatRoom.config(['$routeProvider',
 ]);
 
 ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, $routeParams, socket) {
-
-	$scope.errorMessage = '';
 	$scope.nickname = '';
 
 	$scope.login = function() {
 		if ($scope.nickname === '') {
-			$scope.errorMessage = 'Please choose a nickname before continuing!';
+			toastr.error('Please choose a nickname before continuing!');
 		} else {
 			socket.emit('adduser', $scope.nickname, function (available) {
 				if (available) {
 					$location.path('/rooms/' + $scope.nickname);
 				} else {
-					$scope.errorMessage = 'This nickname is already taken!';
+					toastr.error('This nickname is already taken!');
 				}
 			});
 		}
@@ -52,11 +50,13 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 	$scope.roomTopic = '';
 	$scope.banned = false;
 	$scope.nextMessage = '';
-	$scope.errorMessage = '';
 	$scope.isOp = false;
 	$scope.privateMessage = '';
 	$scope.fromUser = '';
+<<<<<<< HEAD
 	$scope.password = '';
+=======
+>>>>>>> 5c322acb84fe50a4abe7604201df1e71ffef80b9
 	$scope.private = false;
 
 	var joinObj = {
@@ -65,23 +65,21 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 
 	socket.emit('joinroom', joinObj, function (success, reason) {
 		if (!success) {
-			$scope.errorMessage = "You have been banned from this room, you cannot see any activity or send messages";
 			$scope.banned = true;
+			toastr.error('You have been banned from room ' + $scope.currentRoom);
+			$location.path('/rooms/' + $scope.currentUser);
 		}
 	});
 
 	$scope.options = function () {
-		if($scope.topic === '' && $scope.password === '') {
-			$scope.errorMessage = "You must fill in topic or password";
-		}
-		else {
-			if($scope.topic !== '') {
-				var topic = {
-					room: $scope.currentRoom,
-					topic: $scope.topic
-				};	
-				socket.emit('settopic', topic);
-			}
+		if($scope.topic === '') {
+			toastr.error('You must fill in topic or password');
+		} else {
+			var topic = {
+				room: $scope.currentRoom,
+				topic: $scope.topic
+			};	
+			socket.emit('settopic', topic);
 		}
 
 
@@ -118,7 +116,7 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			//send private message
 			socket.emit('privatemsg', message, function (sent) {
 				if(!sent) {
-					$scope.errorMessage = "Could not send message";
+					toastr.error('Could not send message');
 				} else {
 					$scope.nextMessage = '';
 				}
@@ -140,7 +138,7 @@ and "updateusers" to the rest of the users in the room.*/
 
 		socket.emit('kick', kick, function(kicked) {
 			if (!kicked) {
-				$scope.errorMessage = "Could not kick user";
+				toastr.error('Could not kick user');
 			}
 		});
 	};
@@ -153,7 +151,7 @@ and "updateusers" to the rest of the users in the room.*/
 
 		socket.emit('ban', ban, function(banned) {
 			if (!banned) {
-				$scope.errorMessage = "Could not ban " + user;
+				toastr.error('Could not ban ' + user);
 			}
 		});
 	};
@@ -173,6 +171,7 @@ and "updateusers" to the rest of the users in the room.*/
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
 			//the user in this room has been banned
 			//redirect to lobby
+			toastr.error('You have been banned from room ' + $scope.currentRoom);
 			$location.path('/rooms/' + $scope.currentUser);
 		} 
 	});
@@ -181,6 +180,7 @@ and "updateusers" to the rest of the users in the room.*/
 		if ($scope.currentRoom === room && $scope.currentUser === userKicked) {
 			// the user in this room has been kicked
 			// redirect him to the room list
+			toastr.warning('You have been kicked from room ' + $scope.currentRoom);
 			$location.path('/rooms/' + $scope.currentUser);
 		}
 	});
@@ -251,7 +251,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 	$scope.rooms = [];
 	$scope.roomList = [];
 	$scope.currentUser = $routeParams.user;
-	$scope.errorMessage = '';
 	$scope.successMessage = '';
 	$scope.roomName = '';
 	socket.emit('rooms');
@@ -290,10 +289,10 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
 				console.log("redirect to ze room");
 			} else {
-				$scope.errorMessage = "Room name cannot be empty";
+				toastr.error('Room name cannot be empty');
 			}
 		} else {
-			$scope.errorMessage = "Room name already exists";
+			toastr.error('The room ' + $scope.roomName + ' already exists');
 		}
 		
 	};
