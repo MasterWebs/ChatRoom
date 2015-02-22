@@ -60,8 +60,8 @@
 				<span class="pointer">{{user}}</span>
 				<button class="asText red" ng-click="privateMsg(user)">Send Message</button>
 				<span ng-cloak ng-show="isOp === true" >
-					<button class="asText red" ng-click="kickUser(user)">Kick</button>
-					<button class="asText red" ng-click="banUser(user)">Ban</button>
+					<span>|</span><button class="asText red" ng-click="kickUser(user)">Kick</button>
+					<span>|</span><button class="asText red" ng-click="banUser(user)">Ban</button>
 				</span>
 			</li>
 		</ul>
