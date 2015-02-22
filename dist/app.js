@@ -248,9 +248,8 @@ and "updateusers" to the rest of the users in the room.*/
 		}
 	});
 
-	$scope.$on("$destroy", function() {
+	$scope.$on('$destroy', function() {
 		// unsubscribe to socket events when site is left
-		console.log('destroyed');
 		socket.removeAllListeners('kicked');
 		socket.removeAllListeners('banned');
 		socket.removeAllListeners('recv_privatemsg');
@@ -310,6 +309,11 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		}
 		
 	};
+
+	$scope.$on("$destroyed", function () {
+		// unsubscribe to roomlist event when site is left
+		socket.removeAllListeners('roomlist');
+	});
 });
 
 // Factory to wrap around the socket functions
