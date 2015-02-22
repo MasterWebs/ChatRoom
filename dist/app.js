@@ -310,7 +310,7 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		
 	};
 
-	$scope.$on("$destroyed", function () {
+	$scope.$on('$destroyed', function () {
 		// unsubscribe to roomlist event when site is left
 		socket.removeAllListeners('roomlist');
 	});
