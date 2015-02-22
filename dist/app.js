@@ -247,6 +247,17 @@ and "updateusers" to the rest of the users in the room.*/
 			$scope.roomTopic = topic;
 		}
 	});
+
+	$scope.$on("$destroy", function() {
+		// unsubscribe to socket events when site is left
+		console.log('destroyed');
+		socket.removeAllListeners('kicked');
+		socket.removeAllListeners('banned');
+		socket.removeAllListeners('recv_privatemsg');
+		socket.removeAllListeners('updateusers');
+		socket.removeAllListeners('updatechat');
+		socket.removeAllListeners('updatetopic');
+	});
 });
 
 ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
@@ -324,6 +335,9 @@ ChatRoom.factory('socket', function ($rootScope) {
                     }
                 });
             });
+        },
+        removeAllListeners: function (eventName) {
+            socket.removeAllListeners(eventName);
         }
     };
 });

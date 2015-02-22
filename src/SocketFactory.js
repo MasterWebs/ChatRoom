@@ -21,6 +21,9 @@ ChatRoom.factory('socket', function ($rootScope) {
                     }
                 });
             });
+        },
+        removeAllListeners: function (eventName) {
+            socket.removeAllListeners(eventName);
         }
     };
 });

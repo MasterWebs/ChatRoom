@@ -206,4 +206,14 @@ and "updateusers" to the rest of the users in the room.*/
 			$scope.roomTopic = topic;
 		}
 	});
+
+	$scope.$on("$destroy", function() {
+		// unsubscribe to socket events when site is left
+		socket.removeAllListeners('kicked');
+		socket.removeAllListeners('banned');
+		socket.removeAllListeners('recv_privatemsg');
+		socket.removeAllListeners('updateusers');
+		socket.removeAllListeners('updatechat');
+		socket.removeAllListeners('updatetopic');
+	});
 });

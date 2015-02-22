@@ -48,7 +48,7 @@
 		<ul class="list">
 			<li ng-repeat="op in ops">
 				<span class="pointer">{{op}}</span>
-				<button class="asText red" ng-click="privateMsg(op)" ng-show="private">Send Message</button>
+				<button class="asText red" ng-click="privateMsg(op)">Send Message</button>
 			</li>
 		</ul>
 	</div>
@@ -58,7 +58,7 @@
 		<ul class="list">
 			<li ng-repeat="user in users">
 				<span class="pointer">{{user}}</span>
-				<button class="asText red" ng-click="privateMsg(user)" ng-show="private">Send Message</button>
+				<button class="asText red" ng-click="privateMsg(user)">Send Message</button>
 				<span ng-cloak ng-show="isOp === true" >
 					<button class="asText red" ng-click="kickUser(user)">Kick</button>
 					<button class="asText red" ng-click="banUser(user)">Ban</button>
