@@ -21,7 +21,8 @@ ChatRoom.config(['$routeProvider',
 	}
 ]);
 
-ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.nickname = '';
 
 	$scope.login = function() {
@@ -37,9 +38,10 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 			});
 		}
 	};
-});
+}]);
 
-ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentRoom = $routeParams.room;
 	$scope.currentUser = $routeParams.user;
 	$scope.users = [];
@@ -99,7 +101,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			};
 			// send message to server
 			socket.emit('sendmsg', message);
-			console.log("is the message empty?");
 			$scope.nextMessage = '';
 		}
 	};
@@ -257,9 +258,10 @@ and "updateusers" to the rest of the users in the room.*/
 		socket.removeAllListeners('updatechat');
 		socket.removeAllListeners('updatetopic');
 	});
-});
+}]);
 
-ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
 	$scope.rooms = [];
 	$scope.roomList = [];
@@ -300,7 +302,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			if($scope.roomName !== '') {
 				// redirect user to his room, where it will be created
 				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
-				console.log("redirect to ze room");
 			} else {
 				toastr.error('Room name cannot be empty');
 			}
@@ -314,12 +315,12 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		// unsubscribe to roomlist event when site is left
 		socket.removeAllListeners('roomlist');
 	});
-});
+}]);
 
 // Factory to wrap around the socket functions
 // Borrowed from Brian Ford
 // http://briantford.com/blog/angular-socket-io.html
-ChatRoom.factory('socket', function ($rootScope) {
+ChatRoom.factory('socket', ['$rootScope', function ($rootScope) {
     var socket = io.connect('http://localhost:8080');
     return {
         on: function (eventName, callback) {
@@ -344,4 +345,4 @@ ChatRoom.factory('socket', function ($rootScope) {
             socket.removeAllListeners(eventName);
         }
     };
-});
+}]);

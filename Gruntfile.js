@@ -15,7 +15,7 @@ module.exports = function ( grunt ) {
 		uglify: {
 			my_target: {
 				files: {
-					'dist/app.min.js': 'dist/app.js'
+					'dist/app.min.js': ['dist/app.js']
 				}
 			}
 		},

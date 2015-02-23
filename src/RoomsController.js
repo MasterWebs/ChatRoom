@@ -1,4 +1,5 @@
-ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
 	$scope.rooms = [];
 	$scope.roomList = [];
@@ -39,7 +40,6 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 			if($scope.roomName !== '') {
 				// redirect user to his room, where it will be created
 				$location.path('/rooms/' + $scope.currentUser + '/' + newRoom.room);
-				console.log("redirect to ze room");
 			} else {
 				toastr.error('Room name cannot be empty');
 			}
@@ -53,4 +53,4 @@ ChatRoom.controller('RoomsController', function ($scope, $location, $rootScope, 
 		// unsubscribe to roomlist event when site is left
 		socket.removeAllListeners('roomlist');
 	});
-});
+}]);

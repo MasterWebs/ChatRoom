@@ -1,7 +1,7 @@
 // Factory to wrap around the socket functions
 // Borrowed from Brian Ford
 // http://briantford.com/blog/angular-socket-io.html
-ChatRoom.factory('socket', function ($rootScope) {
+ChatRoom.factory('socket', ['$rootScope', function ($rootScope) {
     var socket = io.connect('http://localhost:8080');
     return {
         on: function (eventName, callback) {
@@ -26,4 +26,4 @@ ChatRoom.factory('socket', function ($rootScope) {
             socket.removeAllListeners(eventName);
         }
     };
-});
+}]);

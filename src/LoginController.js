@@ -1,4 +1,5 @@
-ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.nickname = '';
 
 	$scope.login = function() {
@@ -14,4 +15,4 @@ ChatRoom.controller('LoginController', function ($scope, $location, $rootScope, 
 			});
 		}
 	};
-});
+}]);

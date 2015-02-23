@@ -1,4 +1,5 @@
-ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $routeParams, socket) {
+ChatRoom.controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentRoom = $routeParams.room;
 	$scope.currentUser = $routeParams.user;
 	$scope.users = [];
@@ -58,7 +59,6 @@ ChatRoom.controller('RoomController', function ($scope, $location, $rootScope, $
 			};
 			// send message to server
 			socket.emit('sendmsg', message);
-			console.log("is the message empty?");
 			$scope.nextMessage = '';
 		}
 	};
@@ -216,4 +216,4 @@ and "updateusers" to the rest of the users in the room.*/
 		socket.removeAllListeners('updatechat');
 		socket.removeAllListeners('updatetopic');
 	});
-});
+}]);
