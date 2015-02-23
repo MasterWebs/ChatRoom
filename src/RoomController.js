@@ -1,4 +1,4 @@
-ChatRoom.controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentRoom = $routeParams.room;
 	$scope.currentUser = $routeParams.user;

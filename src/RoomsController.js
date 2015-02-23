@@ -1,4 +1,4 @@
-ChatRoom.controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
 	$scope.rooms = [];

@@ -40,7 +40,6 @@ module.exports = function ( grunt ) {
 					moment:  	false,
 					console: 	false,
 					$: 		 	false,
-					ChatRoom: 	true,
 					io: 		false,
 					toastr: 	false
 				} 

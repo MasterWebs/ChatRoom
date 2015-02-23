@@ -1,4 +1,4 @@
-ChatRoom.controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.nickname = '';
 

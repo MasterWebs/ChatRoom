@@ -21,7 +21,7 @@ ChatRoom.config(['$routeProvider',
 	}
 ]);
 
-ChatRoom.controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.nickname = '';
 
@@ -40,7 +40,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 	};
 }]);
 
-ChatRoom.controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('RoomController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	$scope.currentRoom = $routeParams.room;
 	$scope.currentUser = $routeParams.user;
@@ -260,7 +260,7 @@ and "updateusers" to the rest of the users in the room.*/
 	});
 }]);
 
-ChatRoom.controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
+angular.module('ChatRoom').controller('RoomsController', ['$scope', '$location', '$rootScope', '$routeParams', 'socket',
 function ($scope, $location, $rootScope, $routeParams, socket) {
 	// Query chat server for active rooms
 	$scope.rooms = [];
@@ -320,7 +320,7 @@ function ($scope, $location, $rootScope, $routeParams, socket) {
 // Factory to wrap around the socket functions
 // Borrowed from Brian Ford
 // http://briantford.com/blog/angular-socket-io.html
-ChatRoom.factory('socket', ['$rootScope', function ($rootScope) {
+angular.module('ChatRoom').factory('socket', ['$rootScope', function ($rootScope) {
     var socket = io.connect('http://localhost:8080');
     return {
         on: function (eventName, callback) {
