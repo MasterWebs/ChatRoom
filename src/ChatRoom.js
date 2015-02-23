@@ -1,6 +1,4 @@
-var ChatRoom = angular.module('ChatRoom', ['ngRoute']);
-
-ChatRoom.config(['$routeProvider',
+angular.module('ChatRoom', ['ngRoute']).config(['$routeProvider',
 	function ($routeProvider) {
 		$routeProvider
 			.when('/login', {
