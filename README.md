@@ -7,6 +7,7 @@ Second programming assignment in WEPO II
 * Type 'node chatserver.js' in command prompt
 * Type 'python -m http.server \<port-number\>' in command prompt (where \<port-number\> is your desired port number i.e. 8000, just not 8080)
   + If you have python 2 then just type python -m SimpleHTTPServer \<port-number\>
+* Visit the url: 'localhost:\<port-number\>' and enjoy
 
 ### Modifications to chatserver.js
 * Op function was changed so that any user can be opped
